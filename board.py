@@ -21,6 +21,64 @@ def print_board():
   for j in range(len(board)):
    print(board[j])
 
+def check_win():
+  if check_row() == 1:
+    return 1
+  elif check_row() == 2:
+    return 2
+  if check_col() == 1:
+    return 1
+  elif check_col() == 2:
+    return 2
+  if check_diag() == 1:
+    return 1
+  elif check_diag() == 2:
+    return 2
+
+def check_row():
+#Player 1 win conditions
+  if board[0][0] == board[0][1] == board[0][2] and board[0][2] == 'X':
+    return 1
+  if board[1][0] == board[1][1] == board[1][2] and board[1][0] == 'X':
+    return 1
+  if board[2][0] == board[2][1] == board[2][2] and board[2][2] == 'X':
+    return 1
+#Player 2 win conditions
+  if board[0][0] == board[0][1] == board[0][2] and board[0][2] == 'O':
+    return 2
+  if board[1][0] == board[1][1] == board[1][2] and board[1][0] == 'O':
+    return 2
+  if board[2][0] == board[2][1] == board[2][2] and board[2][2] == 'O':
+    return 2
+
+def check_col():
+#Player 1 win conditions
+  if board[0][0] == board[1][0] ==board[2][0] and board[0][0] == 'X':
+    return 1
+  if board[0][1] == board[1][1] ==board[2][1] and board[0][1] == 'X':
+    return 1
+  if board[0][2] == board[1][2] ==board[2][2] and board[0][2] == 'X':
+    return 1
+#Player 2 win conditions
+  if board[0][0] == board[1][0] ==board[2][0] and board[0][0] == 'O':
+    return 2
+  if board[0][1] == board[1][1] ==board[2][1] and board[0][1] == 'O':
+    return 2
+  if board[0][2] == board[1][2] ==board[2][2] and board[0][2] == 'O':
+    return 2
+
+def check_diag():
+#Player 1 win conditions
+  if board[0][0] == board[1][1] ==board[2][2] and board[0][0] == 'X':
+    return 1
+  if board[0][2] == board[1][1] ==board[2][0] and board[0][2] == 'X':
+    return 1
+#Player 2 win conditions
+  if board[0][0] == board[1][1] ==board[2][2] and board[0][0] == 'O':
+    return 2
+  if board[0][2] == board[1][1] ==board[2][0] and board[0][2]== 'O':
+    return 2
+
 def check_mark(row, col):
   if row > 2 or col > 2:
     return False
@@ -44,6 +102,10 @@ def main(row,col,player):
         board[int(row)][int(col)] = 'X'
         print("Player 1 added a mark at the location "+str(row)+','+str(col))
         num+=1
+        if check_win() == 1:
+          print("Player 1 has won. Game over")
+          print_board()
+          break
         print_board()
       elif int(row) > 2 or int(col) > 2:
         print("Invalid row or column. Please select row / col between values 0 to 2")
@@ -60,6 +122,10 @@ def main(row,col,player):
         board[int(row)][int(col)] = 'O'      
         print("Player 2 added a mark at the location "+str(row)+','+str(col))
         num+=1
+        if check_win() == 2:
+          print("Player 2 has won. Game over")
+          print_board()
+          break
         print_board()
       elif int(row) > 2 or int(col) > 2:
         print("Invalid row or column. Please select row / col between values 0 to 2")
@@ -67,5 +133,7 @@ def main(row,col,player):
       elif check_mark(int(row),int(col)) == False and player == 2:
         print("Board["+str(row)+"]"+"["+str(col)+"]"+"has already been selected. Please try somewhere else on the board")
         print("Invalid choice, please try again")
+    if num == 9:
+      print("The game is a draw. No one wins.")
 
 main(row,col,player)
